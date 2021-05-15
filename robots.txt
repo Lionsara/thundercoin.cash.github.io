@@ -1,0 +1,4 @@
+User-Agent: *
+Allow:
+
+Sitemap: https://kernowdom.github.io/bep20-generator2/sitemap.xml

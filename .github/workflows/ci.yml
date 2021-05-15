@@ -1,50 +1,89 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
-
-name: Node.js Package
+name: CI
 
 on:
+  push: {}
+  pull_request: {}
   release:
-    types: [created]
+    types:
+      - created
 
 jobs:
-  build:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-      - run: npm ci
-      - run: npm test
+      - name: Setup Code
+        uses: actions/checkout@v2
 
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
         with:
-          node-version: 12
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          node-version: '14.x'
 
-  publish-gpr:
-    needs: build
+      - name: Install dependencies
+        run: npm install
+
+      - name: Linter
+        run: npm run lint
+
+  test:
+    name: Test
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Setup Code
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
         with:
-          node-version: 12
-          registry-url: https://npm.pkg.github.com/
-      - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          node-version: '14.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Test
+        run: npm test
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Code
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Coverage
+        run: npm run coverage
+
+      - name: Post to Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+#  nightly_build:
+#    name: Nightly Build
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Setup Code
+#        uses: actions/checkout@v2
+#
+#      - name: Setup Node
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: '14.x'
+#
+#      - name: Install dependencies
+#        run: npm install
+#
+#      - name: Nightly Build
+#        run: npm run truffle:test
+#        env:
+#          SOLC_NIGHTLY: true

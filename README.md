@@ -1,6 +1,15 @@
 # BEP20 Token Generator
 
-## DIST ONLY
-This branch contains only the dist files from the [dapp branch](https://github.com/vittominacori/bep20-generator/tree/dapp), DO NOT make any changes directly to this branch, instead make your changes on the `dapp` branch and run the deploy script.
+[![CI](https://github.com/kernowdom/bep20-generator2/workflows/CI/badge.svg?branch=master)](https://github.com/kernowdom/bep20-generator2/actions/)
+[![Coverage Status](https://coveralls.io/repos/github/kernowdom/bep20-generator2/badge.svg?branch=master)](https://coveralls.io/github/kernowdom/bep20-generator2?branch=master)
+[![MIT licensed](https://img.shields.io/github/license/kernowdom/bep20-generator2.svg)](https://github.com/kernowdom/bep20-generator2/blob/master/LICENSE)
 
-To upload a file to this branch use the `.vuepress/public` folder on the `dapp` branch.
+The new Smart Contract Generator for BEP20 Token.
+
+## Try it
+
+[https://kernowdom.github.io/bep20-generator2](https://kernowdom.github.io/bep20-generator2)
+
+## License
+
+Code released under the [MIT License](https://github.com/kernowdom/bep20-generator2/blob/master/LICENSE).
